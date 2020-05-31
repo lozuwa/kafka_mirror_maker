@@ -1,0 +1,35 @@
+version: "3.5"
+
+networks:
+  kafka:
+    driver: overlay
+    attachable: true
+
+services:
+  kafka-source:
+    image: lozuwa/kafka:v2.5.0
+    environment:
+      KAFKA_HEAP_OPTS: "-Xmx2G -Xms2G"
+      KAFKA_BROKER_ID: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_AUTO_DELETE_TOPICS_ENABLE: "true"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper-source:2181"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-source:9092"
+      KAFKA_LISTENERS: "PLAINTEXT://:9092"
+      Z: "zookeeper-source:2181"
+      K: "kafka-source:9092"
+    networks:
+      - kafka 
+    deploy:
+      endpoint_mode: dnsrr
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 15s
+        failure_action: rollback
+        order: stop-first
+        monitor: 25000ms
+      restart_policy:
+        condition: on-failure
+        max_attempts: 20
+
