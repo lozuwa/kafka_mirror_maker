@@ -1,0 +1,32 @@
+version: "3.5"
+
+networks:
+  kafka:
+    driver: overlay
+    attachable: true
+
+services:
+  mmv1:
+    image: lozuwa/kafka:mm
+    environment:
+      KAFKA_HEAP_OPTS: "-Xmx2G -Xms2G"
+      WHITE_LIST: "my_topic_.*"
+      CONSUMER_BOOTSTRAP_SERVERS: "kafka-source:9092"
+      PRODUCER_BOOTSTRAP_SERVERS: "kafka-target:9092"
+      MESSAGE_HANDLER: "com.lozuwa.kafka.TopicMapping"
+      MESSAGE_HANDLER_ARGS: "my_topic_1:my_topic,my_topic_2:my_other_topic"
+    networks:
+      - kafka
+    deploy:
+      endpoint_mode: dnsrr
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 15s
+        failure_action: rollback
+        order: stop-first
+        monitor: 25000ms
+      restart_policy:
+        condition: on-failure
+        max_attempts: 20
+
