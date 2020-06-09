@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'mmv2-replication-policies'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // kafka mirror client
+    compile group: 'org.apache.kafka', name: 'connect-mirror-client', version: '2.5.0'
+    // log4j
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+}
