@@ -5,16 +5,19 @@ networks:
     driver: overlay
     attachable: true
 
+configs:
+  mm2.properties:
+    file: ./mm2.properties
+
 services:
-  mmv1:
-    image: lozuwa/kafka:v2.5.0
+  mmv2:
+    image: lozuwa/kafka:mmv2-v2.5.0
+    configs:
+      - source: mm2.properties 
+        target: /opt/kafka/configuration-files/mm2.properties
     environment:
       KAFKA_HEAP_OPTS: "-Xmx2G -Xms2G"
-      WHITE_LIST: "my_topic_.*"
-      CONSUMER_BOOTSTRAP_SERVERS: "kafka-source:9092"
-      PRODUCER_BOOTSTRAP_SERVERS: "kafka-target:9092"
-      MESSAGE_HANDLER: "com.lozuwa.kafka.TopicMapping"
-      MESSAGE_HANDLER_ARGS: "my_topic_1:my_topic,my_topic_2:my_other_topic"
+      TOPIC_REPLICATION_MAPS: "source_topic_1:target_topic_1;source_topic_2:target_topic_2"
     networks:
       - kafka
     deploy:

@@ -10,11 +10,11 @@ docker pull lozuwa/kafka:v2.5.0
 
 Otherwise use the Dockerfile on docker_kafka if you need customization.
 
-## mmv1
-Examples for kafka mirror maker version 1.
+## docker_mmv1
+Build a docker image for mmv1.
 
 ## mmv2
-Examples for kafka mirror maker version 2.
+Build a docker image for mmv2.
 
 ## References
 * https://issues.apache.org/jira/browse/KAFKA-7500

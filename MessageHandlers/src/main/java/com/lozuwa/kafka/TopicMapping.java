@@ -41,6 +41,7 @@ public class TopicMapping implements MirrorMaker.MirrorMakerMessageHandler {
       String topic = record.topic();
       Long timestamp = record.timestamp();
       String message = stringFormatter("New record arrived with headers: {0} value: {1} topic: {2}", headers, value, topic);
+      logger.warn(message);
       // Check if the topic is in topicMaps.
       String targetTopic = topicMaps.getOrDefault(topic, null);
       if (targetTopic != null) {
