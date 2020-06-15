@@ -15,8 +15,8 @@ public class IdentityMapperTopicReplicationPolicy extends DefaultReplicationPoli
   private static final Logger logger = LoggerFactory.getLogger(IdentityMapperTopicReplicationPolicy.class);
 
   public static final String TOPIC_REPLICATION_MAPS_ENVIRONMENT_VARIABLE_NAME = "TOPIC_REPLICATION_MAPS";
-  public static final String TOPICS_REPLICATION_MAPS_SEPARATOR = ":";
-  public static final String TOPICS_REPLICATION_MAP_SEPARATOR = ",";
+  public static final String TOPICS_REPLICATION_MAPS_SEPARATOR = ",";
+  public static final String TOPICS_REPLICATION_MAP_SEPARATOR = ":";
 
   private String sourceClusterAlias;
   private HashMap<String, String> topicMappings = new HashMap<>();
@@ -46,6 +46,7 @@ public class IdentityMapperTopicReplicationPolicy extends DefaultReplicationPoli
       List<String> kafkaTopicsMap = Arrays.asList(topicsMap.split(TOPICS_REPLICATION_MAP_SEPARATOR));
       String sourceTopic = kafkaTopicsMap.get(0);
       String targetTopic = kafkaTopicsMap.get(1);
+      logger.info(Utils.StringFormatter("Map -> Source topic: {0} Target topic: {1}", sourceTopic, targetTopic));
       topicMappings.put(sourceTopic, targetTopic);
     }
   }

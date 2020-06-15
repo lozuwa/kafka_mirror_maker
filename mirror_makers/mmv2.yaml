@@ -17,7 +17,7 @@ services:
         target: /opt/kafka/configuration-files/mm2.properties
     environment:
       KAFKA_HEAP_OPTS: "-Xmx2G -Xms2G"
-      TOPIC_REPLICATION_MAPS: "source_topic_1:target_topic_1;source_topic_2:target_topic_2"
+      TOPIC_REPLICATION_MAPS: "source_topic_1:target_topic_1,source_topic_2:target_topic_2"
     networks:
       - kafka
     deploy:
